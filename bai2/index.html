@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<base target="_top">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bài tập Bài 2 · 租到了合适的房子</title>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;600;700;800&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f3eefb; --card:#fff; --ink:#352c46; --soft:#7d7390; --line:#e5dcf2;
+  --brand:#7c5cd6; --brand-l:#ece5fb; --pink:#e9668f; --green:#3f9d64; --green-l:#e2f4e8;
+  --red:#d9485f; --red-l:#fde5e9; --yellow:#f4c651; --yellow-l:#fff4d3;
+  --zh:"Noto Sans SC","Microsoft YaHei","PingFang SC",sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:"Be Vietnam Pro",system-ui,sans-serif;background:var(--bg);color:var(--ink);font-size:16px;line-height:1.5}
+button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
+button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid var(--brand);outline-offset:2px}
+.zh{font-family:var(--zh)}
+.py{color:var(--pink);font-size:.86em}
+body.no-py .py{display:none}
+.wrap{max-width:860px;margin:0 auto;padding:16px 16px 80px}
+/* header */
+header{position:sticky;top:0;z-index:10;background:var(--bg);border-bottom:1px solid var(--line)}
+header .in{max-width:860px;margin:0 auto;padding:10px 16px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+header h1{font-size:17px;font-weight:800;flex:1;min-width:0}
+header h1 .zh{font-weight:500}
+.who{font-size:13px;color:var(--soft)}
+.pytog{display:flex;align-items:center;gap:6px;font-size:14px;font-weight:700;padding:6px 12px;border-radius:99px;background:var(--brand-l);color:var(--brand)}
+.pytog .sw{width:34px;height:20px;border-radius:99px;background:#cfc3ea;position:relative;transition:.2s}
+.pytog .sw::after{content:"";position:absolute;top:2px;left:2px;width:16px;height:16px;border-radius:50%;background:#fff;transition:.2s}
+body:not(.no-py) .pytog .sw{background:var(--brand)}
+body:not(.no-py) .pytog .sw::after{left:16px}
+nav.tabs{max-width:860px;margin:0 auto;padding:0 16px 10px;display:flex;gap:8px;overflow-x:auto}
+nav.tabs button{white-space:nowrap;padding:8px 14px;border-radius:12px;background:#fff;border:1.5px solid var(--line);font-weight:700;font-size:14px}
+nav.tabs button.on{background:var(--brand);color:#fff;border-color:var(--brand)}
+/* start */
+.start{background:var(--card);border-radius:20px;padding:28px 22px;margin-top:24px;box-shadow:0 8px 30px rgba(80,50,140,.08);text-align:center}
+.start .big{font-family:var(--zh);font-size:40px;font-weight:700;margin:6px 0}
+.start p{color:var(--soft)}
+.form{display:grid;gap:12px;max-width:380px;margin:22px auto 0;text-align:left}
+.form label{font-weight:700;font-size:14px}
+.form input{width:100%;padding:12px 14px;border:1.5px solid var(--line);border-radius:12px;font:inherit;font-size:17px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:12px 20px;border-radius:12px;background:var(--brand);color:#fff;font-weight:800;font-size:16px}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.btn.ghost{background:#fff;color:var(--brand);border:1.5px solid var(--brand)}
+.err{color:var(--red);font-size:14px;min-height:20px}
+.parts{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:18px}
+.parts span{font-size:13px;background:var(--brand-l);color:var(--brand);padding:4px 10px;border-radius:99px;font-weight:600}
+/* section */
+.sec h2{font-size:22px;font-weight:800;margin:18px 0 4px}
+.sec .sub{color:var(--soft);margin-bottom:14px;font-size:14px}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+.chips button{padding:6px 12px;border-radius:99px;border:1.5px solid var(--line);background:#fff;font-size:14px;font-weight:600}
+.chips button.on{background:var(--yellow-l);border-color:var(--yellow)}
+/* flashcards */
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:12px}
+.fc{perspective:800px;height:170px;cursor:pointer}
+.fc .in{position:relative;height:100%;transition:transform .45s;transform-style:preserve-3d}
+.fc.flip .in{transform:rotateY(180deg)}
+.fc .face{position:absolute;inset:0;backface-visibility:hidden;border-radius:16px;background:#fff;border:1.5px solid var(--line);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:10px;text-align:center;gap:4px}
+.fc .front .w{font-family:var(--zh);font-size:38px;font-weight:500}
+.fc .front .py{font-size:17px}
+.fc .back{transform:rotateY(180deg);background:var(--brand-l);border:none}
+.fc .back .pos{font-size:12px;font-weight:700;color:var(--brand);background:#fff;padding:2px 8px;border-radius:99px}
+.fc .back .vi{font-weight:700;font-size:16px}
+.fc .back .w2{font-family:var(--zh);font-size:22px}
+.spk{position:absolute;top:8px;right:8px;width:32px;height:32px;border-radius:50%;background:var(--green-l);color:var(--green);display:grid;place-items:center;font-size:15px}
+.hint{font-size:13px;color:var(--soft);text-align:center;margin-top:10px}
+/* grammar review */
+.gp{background:#fff;border-radius:18px;padding:16px 18px;margin-bottom:14px;border:1.5px solid var(--line)}
+.gp h3{font-size:18px;display:flex;gap:10px;align-items:center}
+.gp h3 .n{width:30px;height:30px;border-radius:50%;background:var(--pink);color:#fff;display:grid;place-items:center;font-size:15px;flex:none}
+.gp .f{margin:10px 0;padding:8px 12px;background:var(--yellow-l);border-radius:10px;font-weight:600;font-size:15px}
+.ex{display:flex;gap:10px;align-items:flex-start;padding:8px 0;border-top:1px dashed var(--line)}
+.ex .t .z{font-family:var(--zh);font-size:19px}
+.ex .t .v{color:var(--soft);font-size:14px}
+.ex .spk{position:static;flex:none}
+.hl{color:var(--red);font-weight:700}
+/* quiz */
+.part{margin:22px 0 10px;display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.part h3{font-size:19px}
+.part .pts{font-size:13px;color:var(--soft)}
+.q{background:#fff;border-radius:16px;padding:14px 16px;margin-bottom:12px;border:1.5px solid var(--line)}
+.q.ok{border-color:var(--green);background:#f7fcf8}
+.q.bad{border-color:var(--red);background:#fffafb}
+.q .head{display:flex;gap:10px;align-items:flex-start}
+.q .no{flex:none;min-width:30px;height:30px;padding:0 6px;border-radius:9px;background:var(--brand-l);color:var(--brand);font-weight:800;display:grid;place-items:center;font-size:14px}
+.q .stem{flex:1;min-width:0}
+.q .stem .z{font-family:var(--zh);font-size:21px}
+.q .stem .z .b{display:inline-block;min-width:54px;border-bottom:2px solid var(--ink);margin:0 4px}
+.q .head .spk{position:static;flex:none}
+.opts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-top:12px}
+.opts.one{grid-template-columns:1fr}
+.opt{text-align:left;padding:10px 12px;border-radius:12px;border:1.5px solid var(--line);background:#fbf9fe;display:flex;gap:8px;align-items:flex-start}
+.opt .k{flex:none;font-weight:800;color:var(--soft)}
+.opt .c{min-width:0}
+.opt .c .z{font-family:var(--zh);font-size:18px}
+.opt.sel{border-color:var(--brand);background:var(--brand-l)}
+.opt.right{border-color:var(--green);background:var(--green-l)}
+.opt.wrong{border-color:var(--red);background:var(--red-l)}
+.opts.locked .opt{cursor:default}
+.explain{margin-top:10px;font-size:14px;color:var(--soft)}
+.explain b{color:var(--green)}
+.submitbar{position:fixed;left:0;right:0;bottom:0;background:#fff;border-top:1px solid var(--line);z-index:9}
+.submitbar .in{max-width:860px;margin:0 auto;padding:10px 16px;display:flex;align-items:center;gap:12px}
+.submitbar .prog{flex:1;font-size:14px;color:var(--soft)}
+.submitbar .bar{height:6px;border-radius:9px;background:var(--line);margin-top:4px;overflow:hidden}
+.submitbar .bar i{display:block;height:100%;background:var(--brand);width:0;transition:width .3s}
+.confirm{background:var(--yellow-l);border:1.5px solid var(--yellow);border-radius:14px;padding:12px 14px;margin:14px 0;display:none}
+.confirm.show{display:block}
+.confirm .row{display:flex;gap:10px;margin-top:10px;flex-wrap:wrap}
+/* result */
+.result{background:#fff;border-radius:20px;padding:22px;margin:18px 0;text-align:center;border:2px solid var(--brand)}
+.result .score{font-size:56px;font-weight:800;color:var(--brand);line-height:1.1}
+.result table{margin:14px auto 0;border-collapse:collapse;font-size:15px}
+.result td{padding:4px 12px;text-align:left}
+.result td:last-child{text-align:right;font-weight:700;font-variant-numeric:tabular-nums}
+.save{margin-top:12px;font-weight:700}
+.save.ok{color:var(--green)} .save.fail{color:var(--red)} .save.wait{color:var(--soft)}
+.banner{background:var(--yellow-l);border:1px solid var(--yellow);border-radius:10px;padding:8px 12px;font-size:13px;margin-top:12px}
+[hidden]{display:none!important}
+header h1{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+@media (max-width:520px){
+  .opts{grid-template-columns:1fr}
+  .cards{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+  .fc{height:140px}.fc .front .w{font-size:30px}.fc .back .vi{font-size:14px}
+  .start .big{font-size:30px}
+  header h1{font-size:15px}
+  .who{order:3;width:100%;margin-top:-4px}
+}
+@media (prefers-reduced-motion:reduce){.fc .in{transition:none}}
+</style>
+</head>
+<body class="">
+<header>
+  <div class="in">
+    <h1>Bài 2 · <span class="zh">租到了合适的房子</span></h1>
+    <span class="who" id="who"></span>
+    <button class="pytog" id="pyTog" aria-pressed="true"><span class="sw"></span>Pinyin</button>
+  </div>
+  <nav class="tabs" id="tabs" hidden>
+    <button data-v="vocab">① Ôn từ vựng</button>
+    <button data-v="gram">② Ôn ngữ pháp</button>
+    <button data-v="quiz">③ Làm bài kiểm tra</button>
+  </nav>
+</header>
+
+<main class="wrap">
+  <!-- Màn hình bắt đầu -->
+  <section id="vStart" class="start">
+    <div class="big">租到了合适的房子</div>
+    <p>Bài 2 · Đã thuê được căn nhà phù hợp</p>
+    <div class="parts"><span>38 từ vựng</span><span>4 điểm ngữ pháp</span><span>Bài kiểm tra 36 câu</span></div>
+    <div class="form">
+      <div><label for="inName">Họ và tên</label><input id="inName" autocomplete="name" placeholder="VD: Nguyễn Văn An" maxlength="60"></div>
+      <div><label for="inClass">Lớp</label><input id="inClass" placeholder="VD: 10A1" maxlength="30"></div>
+      <div class="err" id="startErr"></div>
+      <button class="btn" id="btnStart">Bắt đầu ôn tập →</button>
+    </div>
+    <div class="banner" id="demoBanner" hidden>Đang mở ở chế độ xem thử: kết quả chưa gửi lên Google Sheet.</div>
+  </section>
+
+  <!-- Ôn từ vựng -->
+  <section id="vVocab" class="sec" hidden>
+    <h2>Ôn từ vựng</h2>
+    <p class="sub">Bấm vào thẻ để lật xem nghĩa. Bấm 🔊 để nghe phát âm.</p>
+    <div class="chips" id="groupChips"></div>
+    <div class="cards" id="cards"></div>
+    <p class="hint">Ôn xong hãy sang <b>② Ôn ngữ pháp</b> rồi <b>③ Làm bài kiểm tra</b>.</p>
+  </section>
+
+  <!-- Ôn ngữ pháp -->
+  <section id="vGram" class="sec" hidden>
+    <h2>Ôn ngữ pháp</h2>
+    <p class="sub">4 điểm ngữ pháp của bài. Bấm 🔊 để nghe câu mẫu.</p>
+    <div id="gramList"></div>
+  </section>
+
+  <!-- Bài kiểm tra -->
+  <section id="vQuiz" class="sec" hidden>
+    <h2>Bài kiểm tra</h2>
+    <p class="sub">Chọn đáp án cho từng câu. Làm xong bấm <b>Nộp bài</b> ở cuối trang. Mỗi bạn chỉ cần nộp một lần.</p>
+    <div id="quiz"></div>
+    <div class="confirm" id="confirm">
+      <div id="confirmMsg"></div>
+      <div class="row"><button class="btn" id="btnConfirm">Nộp luôn</button><button class="btn ghost" id="btnCancel">Quay lại làm tiếp</button></div>
+    </div>
+    <div id="result"></div>
+  </section>
+</main>
+
+<div class="submitbar" id="submitbar" hidden>
+  <div class="in">
+    <div class="prog"><span id="progTxt">Đã làm 0/36 câu</span><div class="bar"><i id="progBar"></i></div></div>
+    <button class="btn" id="btnSubmit">Nộp bài</button>
+  </div>
+</div>
+
+<script>
+/* ===================== DỮ LIỆU BÀI HỌC ===================== */
+const BAI = "Bai2";
+const GROUPS = [
+  {name: "1 · Thuê nhà", zh: "租房", words: [
+    ["房东","fángdōng","dt.","chủ nhà"],["出租","chūzū","đgt.","cho thuê"],["房租","fángzū","dt.","tiền thuê nhà"],
+    ["租","zū","đgt.","thuê"],["收拾","shōushi","đgt.","dọn dẹp, thu xếp"],["入住","rùzhù","đgt.","dọn vào ở"],
+    ["毛巾","máojīn","dt.","khăn mặt, khăn bông"]]},
+  {name: "2 · Nhà ở & môi trường sống", zh: "房屋与居住环境", words: [
+    ["亮","liàng","tt./đgt.","sáng, chiếu sáng"],["种","zhòng","đgt.","trồng"],["周围","zhōuwéi","dt.","xung quanh, chung quanh"],
+    ["热闹","rènao","đgt./tt./dt.","vui, náo nhiệt, (cảnh) náo nhiệt"],["客厅","kètīng","dt.","phòng khách"],["台","tái","lượng từ","cái, chiếc (máy móc, thiết bị…)"],
+    ["厨房","chúfáng","dt.","nhà bếp"],["平常","píngcháng","dt./tt.","ngày thường, bình thường"],["整个","zhěnggè","tt.","toàn bộ, cả"]]},
+  {name: "3 · Biểu đạt & trạng thái", zh: "日常表达与状态", words: [
+    ["嗯","ǹg","thán từ","ừ, vâng (biểu thị đồng ý)"],["毕业","bìyè","đgt.","tốt nghiệp"],["恐怕","kǒngpà","phó.","e rằng, sợ rằng, có lẽ"],
+    ["日记","rìjì","dt.","nhật kí"],["顺利","shùnlì","tt.","thuận lợi, suôn sẻ"],["接着","jiēzhe","phó./đgt.","tiếp đó, tiếp theo"],
+    ["同时","tóngshí","liên./dt.","đồng thời, cùng lúc"],["基本上","jīběnshàng","phó.","về cơ bản, đại thể"],
+    ["安全感","ānquángǎn","dt.","cảm giác an toàn"],["成就感","chéngjiùgǎn","dt.","cảm giác thành tựu"]]},
+  {name: "4 · Tìm thông tin & chọn nhà", zh: "信息查找", words: [
+    ["建议","jiànyì","dt./đgt.","đề nghị, kiến nghị, lời khuyên"],["查看","chákàn","đgt.","tra, tra xem"],["信息","xìnxī","dt.","tin tức, thông tin"],
+    ["查找","cházhǎo","đgt.","tìm kiếm, tra tìm"],["位置","wèizhì","dt.","vị trí"],["价格","jiàgé","dt.","giá cả"],
+    ["理想","lǐxiǎng","tt./dt.","lý tưởng, ước mơ"],["工资","gōngzī","dt.","tiền lương"]]},
+  {name: "5 · Từ trọng điểm", zh: "重要词语", words: [
+    ["就是","jiùshì","trợ.","dùng với 了 cuối câu để nhấn mạnh, khẳng định"],["不过","búguò","liên.","nhưng, tuy nhiên, có điều"],
+    ["并","bìng","liên./phó.","và, hơn nữa; thực ra, hoàn toàn (không)"],["由于","yóuyú","liên./giới.","bởi vì, do, vì"]]}
+];
+const VOCAB = GROUPS.flatMap(g => g.words.map(([zh, py, pos, vi]) => ({zh, py, pos, vi})));
+const PY = Object.fromEntries(VOCAB.map(w => [w.zh, w.py]));
+Object.assign(PY, {"座":"zuò","本":"běn","件":"jiàn","就是了":"jiù shì le"});
+
+const GRAMMAR = [
+  {t:"Cấu trúc cố định “× 就是了”", zh:"固定格式“×就是了”", f:"Dùng trong văn nói, đặt ở cuối câu để khẳng định: cứ … là được", hl:"就是了", ex:[
+    ["如果决定租了，告诉我就是了。","Rúguǒ juédìng zū le, gàosu wǒ jiù shì le.","Nếu quyết định thuê rồi thì cứ báo cho tôi là được."],
+    ["我一定能办到，您放心就是了。","Wǒ yídìng néng bàndào, nín fàngxīn jiù shì le.","Tôi nhất định làm được, ông/bà cứ yên tâm."],
+    ["这次考得不好没关系，下次努力就是了。","Zhè cì kǎo de bù hǎo méi guānxi, xià cì nǔlì jiù shì le.","Lần này thi không tốt cũng không sao, lần sau cố gắng là được."]]},
+  {t:"Câu ghép chuyển ý “……，不过……”", zh:"转折复句“……，不过……”", f:"不过 đứng đầu phân câu thứ hai, biểu thị chuyển ý: nhưng, có điều", hl:"不过", ex:[
+    ["这个小区的环境真不错，不过我听说，附近有十几家公司，很多刚毕业的学生都租住在这里。","Zhège xiǎoqū de huánjìng zhēn búcuò, búguò wǒ tīngshuō, fùjìn yǒu shí jǐ jiā gōngsī, hěn duō gāng bìyè de xuésheng dōu zūzhù zài zhèlǐ.","Môi trường khu này thật tốt, có điều tôi nghe nói gần đây có hơn chục công ty, nhiều sinh viên mới tốt nghiệp thuê ở đây."],
+    ["我们在动物园看见了很多动物，不过没看见大熊猫。","Wǒmen zài dòngwùyuán kànjiàn le hěn duō dòngwù, búguò méi kànjiàn dàxióngmāo.","Chúng tôi thấy rất nhiều động vật ở sở thú, có điều không thấy gấu trúc."],
+    ["我刚来北京时还不太习惯这里的天气，不过很快就适应了。","Wǒ gāng lái Běijīng shí hái bú tài xíguàn zhèlǐ de tiānqì, búguò hěn kuài jiù shìyìng le.","Lúc mới đến Bắc Kinh tôi chưa quen thời tiết ở đây lắm, nhưng rất nhanh đã thích nghi."]]},
+  {t:"Liên từ / Phó từ “并”", zh:"连词/副词“并”", f:"Liên từ: nối hai động từ, cụm từ hoặc phân câu, ý tăng tiến (và, hơn nữa). Phó từ: đứng trước từ phủ định để nhấn mạnh (hoàn toàn không, thực ra không)", hl:"并", ex:[
+    ["房东又向我介绍了一下房子里的东西，并告诉我这些东西怎么用。","Fángdōng yòu xiàng wǒ jièshào le yíxià fángzi lǐ de dōngxi, bìng gàosu wǒ zhèxiē dōngxi zěnme yòng.","Chủ nhà lại giới thiệu cho tôi đồ đạc trong nhà, và chỉ cho tôi cách dùng."],
+    ["她考上了北京大学并申请到了奖学金。","Tā kǎoshàng le Běijīng Dàxué bìng shēnqǐng dào le jiǎngxuéjīn.","Cô ấy thi đỗ Đại học Bắc Kinh và còn xin được học bổng."],
+    ["我并没有答应你就租这个房子，我还要再想想。","Wǒ bìng méiyǒu dāying nǐ jiù zū zhège fángzi, wǒ hái yào zài xiǎngxiang.","Tôi hoàn toàn chưa đồng ý thuê căn nhà này, tôi còn phải nghĩ thêm."]]},
+  {t:"Liên từ / Giới từ “由于”", zh:"连词/介词“由于”", f:"由于 + nguyên nhân，(所以/因此) + kết quả: bởi vì, do", hl:"由于|所以", ex:[
+    ["在中国，由于很多刚工作的年轻人工资还不太高，所以他们一开始也不买房，都选择租房。","Zài Zhōngguó, yóuyú hěn duō gāng gōngzuò de niánqīngrén gōngzī hái bú tài gāo, suǒyǐ tāmen yì kāishǐ yě bù mǎi fáng, dōu xuǎnzé zū fáng.","Ở Trung Quốc, vì lương của nhiều người trẻ mới đi làm còn chưa cao, nên lúc đầu họ không mua nhà mà đều chọn thuê nhà."],
+    ["由于一直下大雨，所以我们决定不爬山了。","Yóuyú yìzhí xià dàyǔ, suǒyǐ wǒmen juédìng bù pá shān le.","Vì trời mưa to suốt, nên chúng tôi quyết định không leo núi nữa."],
+    ["由于大家的努力，这次运动会我们班获得了第一名。","Yóuyú dàjiā de nǔlì, zhè cì yùndònghuì wǒmen bān huòdé le dì-yī míng.","Nhờ sự cố gắng của mọi người, đại hội thể thao lần này lớp chúng tôi giành giải nhất."]]}
+];
+
+/* Phần 2 · Chọn từ điền vào chỗ trống (từ vựng) */
+const FILL = [
+  {s:"这套房子的___是一位老人，人很好。", py:"Zhè tào fángzi de ___ shì yí wèi lǎorén, rén hěn hǎo.", o:["房东","毛巾","厨房","信息"], a:"房东", vi:"Chủ nhà của căn nhà này là một ông cụ, người rất tốt."},
+  {s:"这里的___每个月三千块。", py:"Zhèlǐ de ___ měi ge yuè sānqiān kuài.", o:["房租","客厅","日记","位置"], a:"房租", vi:"Tiền thuê nhà ở đây mỗi tháng ba nghìn tệ."},
+  {s:"我们下个星期就可以___了。", py:"Wǒmen xià ge xīngqī jiù kěyǐ ___ le.", o:["入住","毛巾","价格","周围"], a:"入住", vi:"Tuần sau chúng tôi đã có thể dọn vào ở rồi."},
+  {s:"搬家以前，我得先___一下东西。", py:"Bānjiā yǐqián, wǒ děi xiān ___ yíxià dōngxi.", o:["收拾","出租","恐怕","理想"], a:"收拾", vi:"Trước khi chuyển nhà, tôi phải thu dọn đồ đạc trước."},
+  {s:"我在阳台上___了很多花。", py:"Wǒ zài yángtái shang ___ le hěn duō huā.", o:["种","亮","台","租"], a:"种", vi:"Tôi trồng rất nhiều hoa trên ban công."},
+  {s:"房间里有一___电视。", py:"Fángjiān lǐ yǒu yì ___ diànshì.", o:["台","座","本","件"], a:"台", vi:"Trong phòng có một chiếc tivi."},
+  {s:"这个小区___有超市和公园，很方便。", py:"Zhège xiǎoqū ___ yǒu chāoshì hé gōngyuán, hěn fāngbiàn.", o:["周围","平常","工资","毛巾"], a:"周围", vi:"Xung quanh khu này có siêu thị và công viên, rất tiện."},
+  {s:"晚上的夜市很___。", py:"Wǎnshang de yèshì hěn ___.", o:["热闹","整个","信息","接着"], a:"热闹", vi:"Chợ đêm buổi tối rất náo nhiệt."},
+  {s:"我每天晚上都写___。", py:"Wǒ měi tiān wǎnshang dōu xiě ___.", o:["日记","房东","价格","厨房"], a:"日记", vi:"Tối nào tôi cũng viết nhật kí."},
+  {s:"你可以上网___房子的信息。", py:"Nǐ kěyǐ shàng wǎng ___ fángzi de xìnxī.", o:["查找","入住","种","毕业"], a:"查找", vi:"Bạn có thể lên mạng tìm thông tin về nhà."},
+  {s:"这个房子的___有点儿贵。", py:"Zhège fángzi de ___ yǒudiǎnr guì.", o:["价格","毛巾","日记","客厅"], a:"价格", vi:"Giá của căn nhà này hơi đắt."},
+  {s:"第一次用自己的工资交房租，我很有___。", py:"Dì-yī cì yòng zìjǐ de gōngzī jiāo fángzū, wǒ hěn yǒu ___.", o:["成就感","日记","位置","台"], a:"成就感", vi:"Lần đầu dùng lương của mình trả tiền nhà, tôi rất có cảm giác thành tựu."}
+];
+
+/* Phần 3 · Ngữ pháp: chọn từ đúng */
+const GFILL = [
+  {s:"你别担心，我明天一定来___。", py:"Nǐ bié dānxīn, wǒ míngtiān yídìng lái ___.", o:["就是了","不过","并","由于"], a:"就是了", vi:"Bạn đừng lo, ngày mai tôi nhất định đến là được."},
+  {s:"有什么问题，你给我打电话___。", py:"Yǒu shénme wèntí, nǐ gěi wǒ dǎ diànhuà ___.", o:["就是了","不过","并","由于"], a:"就是了", vi:"Có vấn đề gì, bạn cứ gọi điện cho tôi là được."},
+  {s:"这个房子很大，___房租有点儿贵。", py:"Zhège fángzi hěn dà, ___ fángzū yǒudiǎnr guì.", o:["不过","并","由于","就是了"], a:"不过", vi:"Căn nhà này rất rộng, có điều tiền thuê hơi đắt."},
+  {s:"我很想去，___明天我有事。", py:"Wǒ hěn xiǎng qù, ___ míngtiān wǒ yǒu shì.", o:["不过","并","由于","就是了"], a:"不过", vi:"Tôi rất muốn đi, nhưng ngày mai tôi có việc."},
+  {s:"他找到了工作，___租到了合适的房子。", py:"Tā zhǎodào le gōngzuò, ___ zūdào le héshì de fángzi.", o:["并","由于","就是了","不过"], a:"并", vi:"Anh ấy tìm được việc làm, và còn thuê được căn nhà phù hợp."},
+  {s:"我___不知道他今天搬家。", py:"Wǒ ___ bù zhīdào tā jīntiān bānjiā.", o:["并","不过","由于","就是了"], a:"并", vi:"Tôi hoàn toàn không biết hôm nay anh ấy chuyển nhà."},
+  {s:"___房租太贵，所以我们没租这套房子。", py:"___ fángzū tài guì, suǒyǐ wǒmen méi zū zhè tào fángzi.", o:["由于","不过","并","就是了"], a:"由于", vi:"Vì tiền thuê quá đắt, nên chúng tôi không thuê căn nhà này."},
+  {s:"___天气不好，比赛推迟了。", py:"___ tiānqì bù hǎo, bǐsài tuīchí le.", o:["由于","不过","并","就是了"], a:"由于", vi:"Do thời tiết không tốt, trận đấu bị hoãn lại."}
+];
+
+/* Phần 4 · Ngữ pháp: chọn câu đúng (đáp án đúng luôn đặt ở vị trí đầu, trang sẽ tự xáo) */
+const GSENT = [
+  {o:[["这次没考好没关系，下次努力就是了。","Zhè cì méi kǎohǎo méi guānxi, xià cì nǔlì jiù shì le."],["这次没考好没关系，就是了下次努力。","Zhè cì méi kǎohǎo méi guānxi, jiù shì le xià cì nǔlì."],["这次没考好没关系，下次就是了努力。","Zhè cì méi kǎohǎo méi guānxi, xià cì jiù shì le nǔlì."],["就是了这次没考好没关系，下次努力。","Jiù shì le zhè cì méi kǎohǎo méi guānxi, xià cì nǔlì."]], vi:"Lần này thi không tốt cũng không sao, lần sau cố gắng là được."},
+  {o:[["这个房子位置很好，不过价格有点儿高。","Zhège fángzi wèizhì hěn hǎo, búguò jiàgé yǒudiǎnr gāo."],["这个房子不过位置很好，价格有点儿高。","Zhège fángzi búguò wèizhì hěn hǎo, jiàgé yǒudiǎnr gāo."],["这个房子位置很好不过，价格有点儿高。","Zhège fángzi wèizhì hěn hǎo búguò, jiàgé yǒudiǎnr gāo."],["由于这个房子位置很好，不过价格有点儿高。","Yóuyú zhège fángzi wèizhì hěn hǎo, búguò jiàgé yǒudiǎnr gāo."]], vi:"Căn nhà này vị trí rất tốt, có điều giá hơi cao."},
+  {o:[["我并没有告诉他这件事。","Wǒ bìng méiyǒu gàosu tā zhè jiàn shì."],["并我没有告诉他这件事。","Bìng wǒ méiyǒu gàosu tā zhè jiàn shì."],["我没有并告诉他这件事。","Wǒ méiyǒu bìng gàosu tā zhè jiàn shì."],["我没有告诉他并这件事。","Wǒ méiyǒu gàosu tā bìng zhè jiàn shì."]], vi:"Tôi hoàn toàn không nói với anh ấy chuyện này."},
+  {o:[["由于下大雨，所以我们没去公园。","Yóuyú xià dàyǔ, suǒyǐ wǒmen méi qù gōngyuán."],["由于下大雨，但是我们没去公园。","Yóuyú xià dàyǔ, dànshì wǒmen méi qù gōngyuán."],["下大雨由于，所以我们没去公园。","Xià dàyǔ yóuyú, suǒyǐ wǒmen méi qù gōngyuán."],["我们没去公园，所以由于下大雨。","Wǒmen méi qù gōngyuán, suǒyǐ yóuyú xià dàyǔ."]], vi:"Vì trời mưa to nên chúng tôi không đi công viên."}
+];
+
+const N_MEANING = 12; // Phần 1: số câu chọn nghĩa (lấy ngẫu nhiên từ 38 từ)
+
+/* ===================== TIỆN ÍCH ===================== */
+const $ = s => document.querySelector(s), $$ = s => [...document.querySelectorAll(s)];
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const shuffle = a => { a = [...a]; for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+const blanks = s => esc(s).replace(/___/g, '<span class="b">&nbsp;</span>');
+const hlText = (s, h) => h ? esc(s).replace(new RegExp(h.split("|").sort((a, b) => b.length - a.length).join("|"), "g"), m => `<span class="hl">${m}</span>`) : esc(s);
+const store = { get(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }, set(k, v) { try { localStorage.setItem(k, v); } catch (e) {} } };
+const IS_GAS = typeof google !== "undefined" && google.script && google.script.run;
+/* Link ứng dụng web Apps Script nhận kết quả khi trang chạy ngoài Google (GitHub Pages) */
+const EXEC_URL = "https://script.google.com/macros/s/AKfycbym1qbivFhhz9cwDNxS5IwM3sf3YVpTv4xQmVrAuZM8PHt7fjDeMDdfSW50vARhin5u/exec";
+const MODE = IS_GAS ? "gas" : (/\.github\.io$|\.netlify\.app$/.test(location.hostname) || /[?&]online=1/.test(location.search) ? "post" : "demo");
+
+/* Đọc tiếng Trung bằng giọng của máy */
+let voices = [];
+if ("speechSynthesis" in window) { voices = speechSynthesis.getVoices(); speechSynthesis.onvoiceschanged = () => voices = speechSynthesis.getVoices(); }
+function speak(t) {
+  if (!("speechSynthesis" in window)) return;
+  speechSynthesis.cancel();
+  const u = new SpeechSynthesisUtterance(t.replace(/___/g, "").replace(/……/g, "，"));
+  u.lang = "zh-CN"; u.rate = 0.8;
+  const v = voices.find(v => /zh[-_]CN/i.test(v.lang) && /Xiaoxiao|Natural|Online/i.test(v.name)) || voices.find(v => /zh[-_]CN/i.test(v.lang));
+  if (v) u.voice = v;
+  speechSynthesis.speak(u);
+}
+document.addEventListener("click", e => { const b = e.target.closest("[data-say]"); if (b) { e.stopPropagation(); speak(b.dataset.say); } }, true);
+
+/* Ẩn / hiện pinyin */
+function setPy(on) { document.body.classList.toggle("no-py", !on); $("#pyTog").setAttribute("aria-pressed", on); store.set("py", on ? "1" : "0"); }
+$("#pyTog").onclick = () => setPy(document.body.classList.contains("no-py"));
+setPy(store.get("py") !== "0");
+
+/* ===================== MÀN HÌNH BẮT ĐẦU ===================== */
+let student = null, startedAt = null;
+$("#inName").value = store.get("name") || "";
+$("#inClass").value = store.get("class") || "";
+if (MODE === "demo") $("#demoBanner").hidden = false;
+$("#btnStart").onclick = () => {
+  const name = $("#inName").value.trim().replace(/\s+/g, " "), lop = $("#inClass").value.trim();
+  if (name.length < 2) { $("#startErr").textContent = "Vui lòng nhập họ và tên trước khi làm bài."; $("#inName").focus(); return; }
+  store.set("name", name); store.set("class", lop);
+  student = { name, lop }; startedAt = Date.now();
+  $("#who").textContent = name + (lop ? " · " + lop : "");
+  $("#vStart").hidden = true; $("#tabs").hidden = false;
+  show("vocab");
+};
+$("#inName").addEventListener("keydown", e => { if (e.key === "Enter") $("#inClass").focus(); });
+$("#inClass").addEventListener("keydown", e => { if (e.key === "Enter") $("#btnStart").click(); });
+
+function show(v) {
+  $("#vVocab").hidden = v !== "vocab"; $("#vGram").hidden = v !== "gram"; $("#vQuiz").hidden = v !== "quiz";
+  $("#submitbar").hidden = v !== "quiz" || submitted;
+  $$("#tabs button").forEach(b => b.classList.toggle("on", b.dataset.v === v));
+  scrollTo({ top: 0 });
+}
+$$("#tabs button").forEach(b => b.onclick = () => show(b.dataset.v));
+
+/* ===================== ÔN TỪ VỰNG ===================== */
+function renderCards(gi) {
+  $$("#groupChips button").forEach((b, i) => b.classList.toggle("on", i === gi));
+  const list = gi < 0 ? VOCAB : GROUPS[gi].words.map(([zh, py, pos, vi]) => ({zh, py, pos, vi}));
+  $("#cards").innerHTML = list.map(w => `<div class="fc" tabindex="0" role="button" aria-label="${esc(w.zh)}"><div class="in">
+    <div class="face front"><button class="spk" data-say="${esc(w.zh)}" aria-label="Nghe">🔊</button><div class="w">${esc(w.zh)}</div><div class="py">${esc(w.py)}</div></div>
+    <div class="face back"><div class="w2">${esc(w.zh)}</div><div class="py">${esc(w.py)}</div><span class="pos">${esc(w.pos)}</span><div class="vi">${esc(w.vi)}</div></div></div></div>`).join("");
+  $$("#cards .fc").forEach(c => { const f = () => c.classList.toggle("flip"); c.onclick = f; c.onkeydown = e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); f(); } }; });
+}
+$("#groupChips").innerHTML = GROUPS.map(g => `<button>${esc(g.name)}</button>`).join("") + `<button>Tất cả 38 từ</button>`;
+$$("#groupChips button").forEach((b, i) => b.onclick = () => renderCards(i < GROUPS.length ? i : -1));
+renderCards(0);
+
+/* ===================== ÔN NGỮ PHÁP ===================== */
+$("#gramList").innerHTML = GRAMMAR.map((g, i) => `<div class="gp"><h3><span class="n">${i + 1}</span><span>${esc(g.t)}<br><span class="zh" style="font-size:15px;color:var(--soft)">${esc(g.zh)}</span></span></h3>
+  <div class="f">${esc(g.f)}</div>
+  ${g.ex.map(([z, p, v]) => `<div class="ex"><button class="spk" data-say="${esc(z)}" aria-label="Nghe">🔊</button><div class="t"><div class="z">${hlText(z, g.hl)}</div><div class="py">${esc(p)}</div><div class="v">${esc(v)}</div></div></div>`).join("")}</div>`).join("");
+
+/* ===================== BÀI KIỂM TRA ===================== */
+let QUESTIONS = [], submitted = false;
+function buildQuiz() {
+  const qs = [];
+  // Phần 1: chọn nghĩa
+  shuffle(VOCAB).slice(0, N_MEANING).forEach(w => {
+    const wrong = shuffle(VOCAB.filter(x => x.zh !== w.zh && x.vi !== w.vi)).slice(0, 3).map(x => x.vi);
+    qs.push({ part: 1, type: "meaning", zh: w.zh, py: w.py, opts: shuffle([w.vi, ...wrong]), ans: w.vi, label: w.zh, explain: `${w.zh} (${w.py}) = ${w.vi}` });
+  });
+  // Phần 2: điền từ
+  FILL.forEach(f => qs.push({ part: 2, type: "fill", zh: f.s, py: f.py, opts: shuffle(f.o), ans: f.a, label: f.s.replace("___", "（" + f.a + "）"), explain: f.vi }));
+  // Phần 3: ngữ pháp chọn từ
+  GFILL.forEach(f => qs.push({ part: 3, type: "fill", zh: f.s, py: f.py, opts: shuffle(f.o), ans: f.a, label: f.s, explain: f.vi }));
+  // Phần 4: chọn câu đúng
+  GSENT.forEach(g => qs.push({ part: 4, type: "sent", opts: shuffle(g.o.map(x => x[0])), ans: g.o[0][0], pys: Object.fromEntries(g.o), label: g.o[0][0], explain: g.vi }));
+  return qs;
+}
+const PARTS = { 1: "Phần 1 · Từ vựng: chọn nghĩa đúng", 2: "Phần 2 · Từ vựng: chọn từ điền vào chỗ trống", 3: "Phần 3 · Ngữ pháp: chọn từ đúng", 4: "Phần 4 · Ngữ pháp: chọn câu đúng" };
+
+function renderQuiz() {
+  QUESTIONS = buildQuiz();
+  let html = "", last = 0;
+  QUESTIONS.forEach((q, i) => {
+    if (q.part !== last) { last = q.part; const n = QUESTIONS.filter(x => x.part === q.part).length; html += `<div class="part"><h3>${PARTS[q.part]}</h3><span class="pts">${n} câu · mỗi câu 1 điểm</span></div>`; }
+    let stem = "";
+    if (q.type === "meaning") stem = `<div class="z" style="font-size:28px">${esc(q.zh)}</div><div class="py">${esc(q.py)}</div><div style="color:var(--soft);font-size:14px">Từ này có nghĩa là gì?</div>`;
+    else if (q.type === "fill") stem = `<div class="z">${blanks(q.zh)}</div><div class="py">${esc(q.py)}</div>`;
+    else stem = `<div style="font-weight:700">Câu nào đúng ngữ pháp?</div>`;
+    const say = q.type === "sent" ? "" : `<button class="spk" data-say="${esc(q.zh)}" aria-label="Nghe">🔊</button>`;
+    const opts = q.opts.map((o, k) => {
+      const isZh = q.type !== "meaning";
+      const py = q.type === "sent" ? q.pys[o] : (isZh ? PY[o] : "");
+      return `<button class="opt" data-q="${i}" data-o="${esc(o)}"><span class="k">${"ABCD"[k]}.</span><span class="c">${isZh ? `<span class="z">${esc(o)}</span>` : esc(o)}${py ? `<br><span class="py">${esc(py)}</span>` : ""}</span></button>`;
+    }).join("");
+    html += `<div class="q" id="q${i}"><div class="head"><span class="no">${i + 1}</span><div class="stem">${stem}</div>${say}</div>
+      <div class="opts ${q.type === "sent" ? "one" : ""}">${opts}</div><div class="explain" hidden></div></div>`;
+  });
+  $("#quiz").innerHTML = html;
+  $$("#quiz .opt").forEach(b => b.onclick = () => {
+    if (submitted) return;
+    const q = QUESTIONS[b.dataset.q];
+    q.pick = b.dataset.o;
+    b.parentElement.querySelectorAll(".opt").forEach(x => x.classList.toggle("sel", x === b));
+    $("#confirm").classList.remove("show");
+    updateProg();
+  });
+  updateProg();
+}
+function updateProg() {
+  const done = QUESTIONS.filter(q => q.pick != null).length;
+  $("#progTxt").textContent = `Đã làm ${done}/${QUESTIONS.length} câu`;
+  $("#progBar").style.width = (done / QUESTIONS.length * 100) + "%";
+}
+renderQuiz();
+
+$("#btnSubmit").onclick = () => {
+  const left = QUESTIONS.filter(q => q.pick == null).length;
+  if (left > 0) {
+    $("#confirmMsg").innerHTML = `Bạn còn <b>${left} câu</b> chưa làm. Câu bỏ trống sẽ không có điểm.`;
+    $("#confirm").classList.add("show"); $("#confirm").scrollIntoView({ behavior: "smooth", block: "center" });
+    const first = QUESTIONS.findIndex(q => q.pick == null);
+    $("#btnCancel").onclick = () => { $("#confirm").classList.remove("show"); $("#q" + first).scrollIntoView({ behavior: "smooth", block: "center" }); };
+    return;
+  }
+  doSubmit();
+};
+$("#btnConfirm").onclick = () => doSubmit();
+
+let lastPayload = null;
+function doSubmit() {
+  if (submitted) return;
+  submitted = true;
+  $("#confirm").classList.remove("show"); $("#submitbar").hidden = true;
+  const score = { 1: 0, 2: 0, 3: 0, 4: 0 }, max = { 1: 0, 2: 0, 3: 0, 4: 0 }, wrongs = [];
+  QUESTIONS.forEach((q, i) => {
+    max[q.part]++;
+    const ok = q.pick === q.ans; if (ok) score[q.part]++;
+    else wrongs.push(`Câu ${i + 1}: ${q.label}${q.pick ? " (chọn " + q.pick + ")" : " (bỏ trống)"}`);
+    const box = $("#q" + i); box.classList.add(ok ? "ok" : "bad");
+    box.querySelector(".opts").classList.add("locked");
+    box.querySelectorAll(".opt").forEach(b => { if (b.dataset.o === q.ans) b.classList.add("right"); else if (b.dataset.o === q.pick) b.classList.add("wrong"); });
+    const ex = box.querySelector(".explain"); ex.hidden = false;
+    ex.innerHTML = (ok ? "✅ Đúng. " : `❌ Đáp án đúng: <b class="zh">${esc(q.ans)}</b>. `) + esc(q.explain);
+  });
+  const total = Object.values(score).reduce((a, b) => a + b, 0), totalMax = QUESTIONS.length;
+  const diem10 = Math.round(total / totalMax * 100) / 10;
+  const minutes = Math.max(1, Math.round((Date.now() - startedAt) / 60000));
+  lastPayload = { bai: BAI, name: student.name, lop: student.lop, p1: score[1], p2: score[2], p3: score[3], p4: score[4], total, max: totalMax, diem10, minutes, wrong: wrongs.join("\n") };
+  $("#result").innerHTML = `<div class="result"><div>Kết quả của <b>${esc(student.name)}</b></div>
+    <div class="score">${diem10.toFixed(1)}<span style="font-size:22px;color:var(--soft)"> / 10</span></div>
+    <div style="color:var(--soft)">Đúng ${total}/${totalMax} câu · làm trong ${minutes} phút</div>
+    <table>${[1, 2, 3, 4].map(p => `<tr><td>${PARTS[p]}</td><td>${score[p]}/${max[p]}</td></tr>`).join("")}</table>
+    <div class="save wait" id="saveMsg">Đang gửi kết quả cho thầy cô…</div>
+    <button class="btn ghost" id="btnRetry" hidden style="margin-top:10px">Gửi lại kết quả</button>
+    <p class="hint">Kéo lên để xem lại từng câu: câu đúng viền xanh, câu sai viền đỏ kèm đáp án.</p></div>`;
+  $("#btnRetry").onclick = sendResult;
+  $("#result").scrollIntoView({ behavior: "smooth" });
+  sendResult();
+}
+function sendResult() {
+  const msg = $("#saveMsg"), retry = $("#btnRetry");
+  msg.className = "save wait"; msg.textContent = "Đang gửi kết quả cho thầy cô…"; retry.hidden = true;
+  const ok = () => { msg.className = "save ok"; msg.textContent = "✓ Đã gửi kết quả cho thầy cô."; };
+  const fail = err => { msg.className = "save fail"; msg.textContent = "Chưa gửi được kết quả (" + (err && err.message ? err.message : "lỗi mạng") + "). Bấm “Gửi lại kết quả”."; retry.hidden = false; };
+  if (MODE === "gas") google.script.run.withSuccessHandler(ok).withFailureHandler(fail).saveResult(lastPayload);
+  else if (MODE === "post") {
+    // text/plain để trình duyệt gửi thẳng, không cần bước kiểm tra CORS
+    fetch(EXEC_URL, { method: "POST", headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify(lastPayload) })
+      .then(r => r.json())
+      .then(j => j && j.ok ? ok() : fail({ message: (j && j.error) || "máy chủ không nhận" }))
+      .catch(fail);
+  }
+  else setTimeout(() => { console.log("[Chế độ thử] Kết quả sẽ gửi:", lastPayload); msg.className = "save ok"; msg.textContent = "✓ (Chế độ thử) Kết quả hợp lệ, chưa gửi lên Google Sheet."; }, 600);
+}
+</script>
+</body>
+</html>
