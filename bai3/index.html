@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<base target="_top">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bài 3 · 手机扫一下 · Ôn tập &amp; bài tập</title>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;600;700;800&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f3eefb; --card:#fff; --ink:#352c46; --soft:#7d7390; --line:#e5dcf2;
+  --brand:#7c5cd6; --brand-l:#ece5fb; --pink:#e9668f; --green:#3f9d64; --green-l:#e2f4e8;
+  --red:#d9485f; --red-l:#fde5e9; --yellow:#f4c651; --yellow-l:#fff4d3;
+  --zh:"Noto Sans SC","Microsoft YaHei","PingFang SC",sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:"Be Vietnam Pro",system-ui,sans-serif;background:var(--bg);color:var(--ink);font-size:16px;line-height:1.5}
+button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
+button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid var(--brand);outline-offset:2px}
+.zh{font-family:var(--zh)}
+.py{color:var(--pink);font-size:.86em}
+body.no-py .py{display:none}
+.wrap{max-width:860px;margin:0 auto;padding:16px 16px 80px}
+/* header */
+header{position:sticky;top:0;z-index:10;background:var(--bg);border-bottom:1px solid var(--line)}
+header .in{max-width:860px;margin:0 auto;padding:10px 16px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+header h1{font-size:17px;font-weight:800;flex:1;min-width:0}
+header h1 .zh{font-weight:500}
+.who{font-size:13px;color:var(--soft)}
+.pytog{display:flex;align-items:center;gap:6px;font-size:14px;font-weight:700;padding:6px 12px;border-radius:99px;background:var(--brand-l);color:var(--brand)}
+.pytog .sw{width:34px;height:20px;border-radius:99px;background:#cfc3ea;position:relative;transition:.2s}
+.pytog .sw::after{content:"";position:absolute;top:2px;left:2px;width:16px;height:16px;border-radius:50%;background:#fff;transition:.2s}
+body:not(.no-py) .pytog .sw{background:var(--brand)}
+body:not(.no-py) .pytog .sw::after{left:16px}
+nav.tabs{max-width:860px;margin:0 auto;padding:0 16px 10px;display:flex;gap:8px;overflow-x:auto}
+nav.tabs button{white-space:nowrap;padding:8px 14px;border-radius:12px;background:#fff;border:1.5px solid var(--line);font-weight:700;font-size:14px}
+nav.tabs button.on{background:var(--brand);color:#fff;border-color:var(--brand)}
+/* start */
+.start{background:var(--card);border-radius:20px;padding:28px 22px;margin-top:24px;box-shadow:0 8px 30px rgba(80,50,140,.08);text-align:center}
+.start .big{font-family:var(--zh);font-size:40px;font-weight:700;margin:6px 0}
+.start p{color:var(--soft)}
+.form{display:grid;gap:12px;max-width:380px;margin:22px auto 0;text-align:left}
+.form label{font-weight:700;font-size:14px}
+.form input{width:100%;padding:12px 14px;border:1.5px solid var(--line);border-radius:12px;font:inherit;font-size:17px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:12px 20px;border-radius:12px;background:var(--brand);color:#fff;font-weight:800;font-size:16px}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.btn.ghost{background:#fff;color:var(--brand);border:1.5px solid var(--brand)}
+.err{color:var(--red);font-size:14px;min-height:20px}
+.parts{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:18px}
+.parts span{font-size:13px;background:var(--brand-l);color:var(--brand);padding:4px 10px;border-radius:99px;font-weight:600}
+/* section */
+.sec h2{font-size:22px;font-weight:800;margin:18px 0 4px}
+.sec .sub{color:var(--soft);margin-bottom:14px;font-size:14px}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+.chips button{padding:6px 12px;border-radius:99px;border:1.5px solid var(--line);background:#fff;font-size:14px;font-weight:600}
+.chips button.on{background:var(--yellow-l);border-color:var(--yellow)}
+/* flashcards */
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:12px}
+.fc{perspective:800px;height:170px;cursor:pointer}
+.fc .in{position:relative;height:100%;transition:transform .45s;transform-style:preserve-3d}
+.fc.flip .in{transform:rotateY(180deg)}
+.fc .face{position:absolute;inset:0;backface-visibility:hidden;border-radius:16px;background:#fff;border:1.5px solid var(--line);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:10px;text-align:center;gap:4px}
+.fc .front .w{font-family:var(--zh);font-size:38px;font-weight:500}
+.fc .front .py{font-size:17px}
+.fc .back{transform:rotateY(180deg);background:var(--brand-l);border:none}
+.fc .back .pos{font-size:12px;font-weight:700;color:var(--brand);background:#fff;padding:2px 8px;border-radius:99px}
+.fc .back .vi{font-weight:700;font-size:16px}
+.fc .back .w2{font-family:var(--zh);font-size:22px}
+.spk{position:absolute;top:8px;right:8px;width:32px;height:32px;border-radius:50%;background:var(--green-l);color:var(--green);display:grid;place-items:center;font-size:15px}
+.hint{font-size:13px;color:var(--soft);text-align:center;margin-top:10px}
+/* grammar review */
+.gp{background:#fff;border-radius:18px;padding:16px 18px;margin-bottom:14px;border:1.5px solid var(--line)}
+.gp h3{font-size:18px;display:flex;gap:10px;align-items:center}
+.gp h3 .n{width:30px;height:30px;border-radius:50%;background:var(--pink);color:#fff;display:grid;place-items:center;font-size:15px;flex:none}
+.gp .f{margin:10px 0;padding:8px 12px;background:var(--yellow-l);border-radius:10px;font-weight:600;font-size:15px}
+.ex{display:flex;gap:10px;align-items:flex-start;padding:8px 0;border-top:1px dashed var(--line)}
+.ex .t .z{font-family:var(--zh);font-size:19px}
+.ex .t .v{color:var(--soft);font-size:14px}
+.ex .spk{position:static;flex:none}
+.hl{color:var(--red);font-weight:700}
+/* quiz */
+.part{margin:22px 0 10px;display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.part h3{font-size:19px}
+.part .pts{font-size:13px;color:var(--soft)}
+.q{background:#fff;border-radius:16px;padding:14px 16px;margin-bottom:12px;border:1.5px solid var(--line)}
+.q.ok{border-color:var(--green);background:#f7fcf8}
+.q.bad{border-color:var(--red);background:#fffafb}
+.q .head{display:flex;gap:10px;align-items:flex-start}
+.q .no{flex:none;min-width:30px;height:30px;padding:0 6px;border-radius:9px;background:var(--brand-l);color:var(--brand);font-weight:800;display:grid;place-items:center;font-size:14px}
+.q .stem{flex:1;min-width:0}
+.q .stem .z{font-family:var(--zh);font-size:21px}
+.q .stem .z .b{display:inline-block;min-width:54px;border-bottom:2px solid var(--ink);margin:0 4px}
+.q .head .spk{position:static;flex:none}
+.opts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-top:12px}
+.opts.one{grid-template-columns:1fr}
+.opt{text-align:left;padding:10px 12px;border-radius:12px;border:1.5px solid var(--line);background:#fbf9fe;display:flex;gap:8px;align-items:flex-start}
+.opt .k{flex:none;font-weight:800;color:var(--soft)}
+.opt .c{min-width:0}
+.opt .c .z{font-family:var(--zh);font-size:18px}
+.opt.sel{border-color:var(--brand);background:var(--brand-l)}
+.opt.right{border-color:var(--green);background:var(--green-l)}
+.opt.wrong{border-color:var(--red);background:var(--red-l)}
+.opts.locked .opt{cursor:default}
+.explain{margin-top:10px;font-size:14px;color:var(--soft)}
+.explain b{color:var(--green)}
+.submitbar{position:fixed;left:0;right:0;bottom:0;background:#fff;border-top:1px solid var(--line);z-index:9}
+.submitbar .in{max-width:860px;margin:0 auto;padding:10px 16px;display:flex;align-items:center;gap:12px}
+.submitbar .prog{flex:1;font-size:14px;color:var(--soft)}
+.submitbar .bar{height:6px;border-radius:9px;background:var(--line);margin-top:4px;overflow:hidden}
+.submitbar .bar i{display:block;height:100%;background:var(--brand);width:0;transition:width .3s}
+.confirm{background:var(--yellow-l);border:1.5px solid var(--yellow);border-radius:14px;padding:12px 14px;margin:14px 0;display:none}
+.confirm.show{display:block}
+.confirm .row{display:flex;gap:10px;margin-top:10px;flex-wrap:wrap}
+/* result */
+.result{background:#fff;border-radius:20px;padding:22px;margin:18px 0;text-align:center;border:2px solid var(--brand)}
+.result .score{font-size:56px;font-weight:800;color:var(--brand);line-height:1.1}
+.result table{margin:14px auto 0;border-collapse:collapse;font-size:15px}
+.result td{padding:4px 12px;text-align:left}
+.result td:last-child{text-align:right;font-weight:700;font-variant-numeric:tabular-nums}
+.save{margin-top:12px;font-weight:700}
+.save.ok{color:var(--green)} .save.fail{color:var(--red)} .save.wait{color:var(--soft)}
+.banner{background:var(--yellow-l);border:1px solid var(--yellow);border-radius:10px;padding:8px 12px;font-size:13px;margin-top:12px}
+.bigpart{margin:28px 0 4px;padding:12px 16px;border-radius:14px;background:var(--brand);color:#fff;display:flex;flex-direction:column}
+.bigpart b{font-size:20px;letter-spacing:.5px}
+.bigpart span{font-size:14px;opacity:.9}
+.bank{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 12px}
+.bank>span{background:#fff;border:1.5px dashed var(--brand);border-radius:10px;padding:4px 10px}
+.bank .zh{font-size:18px}
+.ctx{position:relative;background:var(--yellow-l);border:1.5px solid var(--yellow);border-radius:16px;padding:14px 16px 14px 16px;margin:0 0 12px}
+.ctx .z{font-family:var(--zh);font-size:19px;line-height:1.8;padding-right:44px}
+.ctx .z .b{display:inline-block;min-width:54px;border-bottom:2px solid var(--ink);margin:0 4px}
+.ctx .py{margin-top:6px;line-height:1.6}
+.ctx .spk{position:absolute;top:10px;right:10px}
+.opts.six{grid-template-columns:repeat(3,minmax(0,1fr))}
+@media (max-width:520px){.opts.six{grid-template-columns:repeat(2,minmax(0,1fr))}}
+[hidden]{display:none!important}
+header h1{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+@media (max-width:520px){
+  .opts{grid-template-columns:1fr}
+  .cards{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+  .fc{height:140px}.fc .front .w{font-size:30px}.fc .back .vi{font-size:14px}
+  .start .big{font-size:30px}
+  header h1{font-size:15px}
+  .who{order:3;width:100%;margin-top:-4px}
+}
+@media (prefers-reduced-motion:reduce){.fc .in{transition:none}}
+</style>
+</head>
+<body class="">
+<header>
+  <div class="in">
+    <h1>Bài 3 · <span class="zh">手机扫一下</span></h1>
+    <span class="who" id="who"></span>
+    <button class="pytog" id="pyTog" aria-pressed="true"><span class="sw"></span>Pinyin</button>
+  </div>
+  <nav class="tabs" id="tabs" hidden>
+    <button data-v="vocab">① Ôn từ vựng</button>
+    <button data-v="gram">② Ôn ngữ pháp</button>
+    <button data-v="quiz">③ Làm bài tập</button>
+  </nav>
+</header>
+
+<main class="wrap">
+  <!-- Màn hình bắt đầu -->
+  <section id="vStart" class="start">
+    <div class="big">手机扫一下</div>
+    <p>Bài 3 · Quét mã bằng điện thoại</p>
+    <div class="parts"><span>23 từ vựng</span><span>3 điểm ngữ pháp</span><span>Bài tập 40 câu: cơ bản + nâng cao</span></div>
+    <div class="form">
+      <div><label for="inName">Họ và tên</label><input id="inName" autocomplete="name" placeholder="VD: Nguyễn Văn An" maxlength="60"></div>
+      <div><label for="inClass">Lớp</label><input id="inClass" placeholder="VD: 10A1" maxlength="30"></div>
+      <div class="err" id="startErr"></div>
+      <button class="btn" id="btnStart">Bắt đầu ôn tập →</button>
+    </div>
+    <div class="banner" id="demoBanner" hidden>Đang mở ở chế độ xem thử: kết quả chưa gửi lên Google Sheet.</div>
+  </section>
+
+  <!-- Ôn từ vựng -->
+  <section id="vVocab" class="sec" hidden>
+    <h2>Ôn từ vựng</h2>
+    <p class="sub">Bấm vào thẻ để lật xem nghĩa. Bấm 🔊 để nghe phát âm.</p>
+    <div class="chips" id="groupChips"></div>
+    <div class="cards" id="cards"></div>
+    <p class="hint">Ôn xong hãy sang <b>② Ôn ngữ pháp</b> rồi <b>③ Làm bài tập</b>.</p>
+  </section>
+
+  <!-- Ôn ngữ pháp -->
+  <section id="vGram" class="sec" hidden>
+    <h2>Ôn ngữ pháp</h2>
+    <p class="sub">3 điểm ngữ pháp của bài. Bấm 🔊 để nghe câu mẫu.</p>
+    <div id="gramList"></div>
+  </section>
+
+  <!-- Bài kiểm tra -->
+  <section id="vQuiz" class="sec" hidden>
+    <h2>Bài tập</h2>
+    <p class="sub">Chọn đáp án cho từng câu. Làm xong bấm <b>Nộp bài</b> ở cuối trang. Mỗi bạn chỉ cần nộp một lần.</p>
+    <div id="quiz"></div>
+    <div class="confirm" id="confirm">
+      <div id="confirmMsg"></div>
+      <div class="row"><button class="btn" id="btnConfirm">Nộp luôn</button><button class="btn ghost" id="btnCancel">Quay lại làm tiếp</button></div>
+    </div>
+    <div id="result"></div>
+  </section>
+</main>
+
+<div class="submitbar" id="submitbar" hidden>
+  <div class="in">
+    <div class="prog"><span id="progTxt">Đã làm 0/40 câu</span><div class="bar"><i id="progBar"></i></div></div>
+    <button class="btn" id="btnSubmit">Nộp bài</button>
+  </div>
+</div>
+
+<script>
+/* ===================== DỮ LIỆU BÀI HỌC ===================== */
+const BAI = "Bai3";
+const LABELS = ["P1 · Nghĩa của từ", "P1 · Kết hợp từ", "P1 · Ngữ pháp", "P2 · Nâng cao (đề đọc)"];
+const GROUPS = [
+  {name: "1 · Đi lại & chỉ đường", zh: "出行与路线", words: [
+    ["十字路口","shízì lùkǒu","dt.","ngã tư"],["直接","zhíjiē","tt.","trực tiếp, thẳng"],["转","zhuǎn","đgt.","rẽ, quay, chuyển"],
+    ["正好","zhènghǎo","phó./tt.","vừa hay, vừa đúng lúc, vừa vặn, vừa đủ"],["熟悉","shúxi","đgt.","quen, thông thạo, hiểu rõ"],
+    ["正","zhèng","tt.","chính, ngay, thẳng"],["目的地","mùdìdì","dt.","điểm đến, nơi cần đến"]]},
+  {name: "2 · Ứng dụng & thanh toán", zh: "应用与支付", words: [
+    ["下载","xiàzài","đgt.","tải xuống, tải về"],["进行","jìnxíng","đgt.","tiến hành, thực hiện"],["支付","zhīfù","đgt.","chi trả, thanh toán"],
+    ["软件","ruǎnjiàn","dt.","phần mềm, ứng dụng"],["扫码","sǎomǎ","đgt.","quét mã QR"],["结账","jiézhàng","đgt.","thanh toán, trả tiền"],
+    ["微信","Wēixìn","dt. riêng","WeChat"],["支付宝","Zhīfùbǎo","dt. riêng","Alipay"]]},
+  {name: "3 · Mua sắm & giao hàng", zh: "购物与快递", words: [
+    ["购物","gòuwù","đgt.","mua sắm, mua hàng"],["订","dìng","đgt.","đặt, đặt mua, đặt trước"],["快递","kuàidì","dt.","chuyển phát nhanh, hàng giao nhanh"],
+    ["现金","xiànjīn","dt.","tiền mặt"],["网购","wǎnggòu","đgt.","mua hàng trực tuyến, mua sắm online"],["寄","jì","đgt.","gửi (thư, hàng)"],
+    ["等","děng","trợ.","v.v., vân vân"],["货","huò","dt.","hàng, hàng hoá"]]}
+];
+const VOCAB = GROUPS.flatMap(g => g.words.map(([zh, py, pos, vi]) => ({zh, py, pos, vi})));
+const PY = Object.fromEntries(VOCAB.map(w => [w.zh, w.py]));
+Object.assign(PY, {"讨论":"tǎolùn","车票":"chēpiào","这里的路":"zhèlǐ de lù","个人信息":"gèrén xìnxī","二维码":"èrwéimǎ","扫":"sǎo","拿":"ná",
+  "快递员":"kuàidìyuán","不仅":"bùjǐn","不光":"bùguāng","还":"hái","而且":"érqiě","甚至":"shènzhì","于是":"yúshì","技术":"jìshù","打扰":"dǎrǎo"});
+
+const GRAMMAR = [
+  {t:"Câu ghép tăng tiến “不仅/不光……，还/而且……”", zh:"递进复句“不仅/不光……，还/而且……”", f:"Chủ ngữ + 不仅/不光……，还/而且……: không chỉ… mà còn… Phân câu sau mở rộng, bổ sung cho phân câu trước, tiến thêm một bước (bài này học loại câu chỉ có một chủ ngữ).", hl:"不仅|不光|还|而且", ex:[
+    ["现在我不仅会扫码结账，还会用手机在网上购物了。","Xiànzài wǒ bùjǐn huì sǎomǎ jiézhàng, hái huì yòng shǒujī zài wǎng shang gòuwù le.","Bây giờ tôi không chỉ biết quét mã thanh toán, mà còn biết dùng điện thoại mua sắm trên mạng rồi."],
+    ["王老师不光教我们说中文，而且带我们了解中国文化。","Wáng lǎoshī bùguāng jiāo wǒmen shuō Zhōngwén, érqiě dài wǒmen liǎojiě Zhōngguó wénhuà.","Thầy Vương không chỉ dạy chúng tôi nói tiếng Trung, mà còn đưa chúng tôi tìm hiểu văn hoá Trung Quốc."],
+    ["现在很多书店不仅卖书，还卖咖啡和奶茶。","Xiànzài hěn duō shūdiàn bùjǐn mài shū, hái mài kāfēi hé nǎichá.","Bây giờ nhiều hiệu sách không chỉ bán sách, mà còn bán cà phê và trà sữa."]]},
+  {t:"Liên từ “甚至”", zh:"连词“甚至”", f:"甚至 (thậm chí): nhấn mạnh một tình huống nổi bật hơn, vượt ra ngoài dự đoán thông thường.", hl:"甚至", ex:[
+    ["在中国网购，不仅选择多、价格不高，而且送货很快，很多留学生甚至改变了自己的购物习惯。","Zài Zhōngguó wǎnggòu, bùjǐn xuǎnzé duō, jiàgé bù gāo, érqiě sònghuò hěn kuài, hěn duō liúxuéshēng shènzhì gǎibiàn le zìjǐ de gòuwù xíguàn.","Mua hàng online ở Trung Quốc không chỉ nhiều lựa chọn, giá không cao mà giao hàng còn rất nhanh, nhiều du học sinh thậm chí đã thay đổi thói quen mua sắm của mình."],
+    ["高铁速度真快，甚至还没看清楚，它就已经开过去了。","Gāotiě sùdù zhēn kuài, shènzhì hái méi kàn qīngchu, tā jiù yǐjīng kāi guòqu le.","Tàu cao tốc nhanh thật, thậm chí còn chưa nhìn rõ thì nó đã chạy qua rồi."],
+    ["这个小区真不错，有小花园、球场，甚至还有一个超市。","Zhège xiǎoqū zhēn búcuò, yǒu xiǎo huāyuán, qiúchǎng, shènzhì hái yǒu yí ge chāoshì.","Khu nhà này thật tốt, có vườn hoa nhỏ, sân bóng, thậm chí còn có cả một siêu thị."]]},
+  {t:"Câu ghép tiếp nối “……，于是……”", zh:"承接复句“……，于是……”", f:"Hai phân câu kể các hành động, sự việc nối tiếp nhau; 于是 (thế là, vì vậy) đứng đầu phân câu thứ hai.", hl:"于是", ex:[
+    ["在提供这些信息时，我们也会担心：我的个人信息能否得到保护？于是，有人在网上说出了自己的担心。","Zài tígōng zhèxiē xìnxī shí, wǒmen yě huì dānxīn: wǒ de gèrén xìnxī néngfǒu dédào bǎohù? Yúshì, yǒu rén zài wǎng shang shuōchū le zìjǐ de dānxīn.","Khi cung cấp những thông tin này, chúng ta cũng lo: thông tin cá nhân của tôi có được bảo vệ không? Thế là có người đã nói ra nỗi lo của mình trên mạng."],
+    ["她从小就想当医生，于是上大学时就选择了学医。","Tā cóngxiǎo jiù xiǎng dāng yīshēng, yúshì shàng dàxué shí jiù xuǎnzé le xué yī.","Cô ấy từ nhỏ đã muốn làm bác sĩ, vì vậy khi vào đại học đã chọn học y."],
+    ["最近总感冒，于是他决定病好后就开始锻炼身体。","Zuìjìn zǒng gǎnmào, yúshì tā juédìng bìng hǎo hòu jiù kāishǐ duànliàn shēntǐ.","Dạo này hay bị cảm, thế là anh ấy quyết định khỏi bệnh xong sẽ bắt đầu rèn luyện thân thể."]]}
+];
+
+/* PHẦN 1B · Kết hợp từ: s có ___ ở chỗ cần điền; o[0] là đáp án đúng (trang tự xáo) */
+const COLLO = [
+  {s:"进行 ___", o:["讨论","快递","现金","车票"], vi:"进行讨论 jìnxíng tǎolùn: tiến hành thảo luận"},
+  {s:"___ 车票", o:["订","扫","转","寄"], vi:"订车票 dìng chēpiào: đặt vé xe"},
+  {s:"熟悉 ___", o:["这里的路","现金","结账","下载"], vi:"熟悉这里的路 shúxi zhèlǐ de lù: thông thạo đường ở đây"},
+  {s:"拿 ___", o:["快递","软件","十字路口","目的地"], vi:"拿快递 ná kuàidì: lấy hàng chuyển phát"},
+  {s:"提供 ___", o:["个人信息","十字路口","网购","正好"], vi:"提供个人信息 tígōng gèrén xìnxī: cung cấp thông tin cá nhân"},
+  {s:"下载 ___", o:["软件","现金","快递员","十字路口"], vi:"下载软件 xiàzài ruǎnjiàn: tải phần mềm"},
+  {s:"___ 二维码", o:["扫","寄","订","转"], vi:"扫二维码 sǎo èrwéimǎ: quét mã QR"},
+  {s:"到 ___", o:["目的地","软件","现金","支付"], vi:"到目的地 dào mùdìdì: đến nơi cần đến"},
+  {s:"___ 快递", o:["寄","转","熟悉","下载"], vi:"寄快递 jì kuàidì: gửi chuyển phát nhanh"},
+  {s:"向左 ___", o:["转","寄","订","拿"], vi:"向左转 xiàng zuǒ zhuǎn: rẽ trái"}
+];
+
+/* PHẦN 1C · Ngữ pháp cơ bản: o[0] là đáp án đúng */
+const GFILL = [
+  {s:"他___会说汉语，还会说英语。", py:"Tā ___ huì shuō Hànyǔ, hái huì shuō Yīngyǔ.", o:["不仅","甚至","于是","正好"], vi:"Anh ấy không chỉ biết nói tiếng Hán, mà còn biết nói tiếng Anh."},
+  {s:"这家店不光卖衣服，___卖鞋子。", py:"Zhè jiā diàn bùguāng mài yīfu, ___ mài xiézi.", o:["还","于是","正好","直接"], vi:"Cửa hàng này không chỉ bán quần áo, mà còn bán giày."},
+  {s:"这个问题太简单了，___连小孩子都知道。", py:"Zhège wèntí tài jiǎndān le, ___ lián xiǎoháizi dōu zhīdào.", o:["甚至","于是","不仅","而且"], vi:"Câu hỏi này dễ quá, thậm chí trẻ con cũng biết."},
+  {s:"这件事很多人不知道，___他的家人也不知道。", py:"Zhè jiàn shì hěn duō rén bù zhīdào, ___ tā de jiārén yě bù zhīdào.", o:["甚至","于是","不仅","还"], vi:"Chuyện này nhiều người không biết, thậm chí người nhà anh ấy cũng không biết."},
+  {s:"外面下雨了，___我们决定在家看电影。", py:"Wàimiàn xià yǔ le, ___ wǒmen juédìng zài jiā kàn diànyǐng.", o:["于是","甚至","不仅","而且"], vi:"Bên ngoài trời mưa, thế là chúng tôi quyết định ở nhà xem phim."},
+  {s:"我听说那家店的饺子很好吃，___周末就去尝了尝。", py:"Wǒ tīngshuō nà jiā diàn de jiǎozi hěn hǎochī, ___ zhōumò jiù qù cháng le cháng.", o:["于是","甚至","不光","还"], vi:"Tôi nghe nói sủi cảo quán đó rất ngon, thế là cuối tuần đã đi ăn thử."}
+];
+
+/* PHẦN 2 · Nâng cao (câu trong đề luyện đọc). opts giữ nguyên thứ tự A, B, C… như đề */
+const ADV_FILL_OPTS = ["技术","正好","寄","现金","转","打扰"];
+const ADV_FILL = [
+  {n:17, s:"我们到电影院的时候，电影___开始了。", py:"Wǒmen dào diànyǐngyuàn de shíhou, diànyǐng ___ kāishǐ le.", a:"正好", vi:"Lúc chúng tôi đến rạp chiếu phim, phim vừa đúng lúc bắt đầu."},
+  {n:18, s:"丽丽去快递站拿快递时，又___了一个快递。", py:"Lìli qù kuàidìzhàn ná kuàidì shí, yòu ___ le yí ge kuàidì.", a:"寄", vi:"Lúc Lệ Lệ đến trạm chuyển phát lấy hàng, lại gửi thêm một kiện hàng."},
+  {n:19, s:"从这儿走到十字路口，再向左___就是超市了。", py:"Cóng zhèr zǒu dào shízì lùkǒu, zài xiàng zuǒ ___ jiù shì chāoshì le.", a:"转", vi:"Từ đây đi đến ngã tư, rẽ trái là đến siêu thị."},
+  {n:20, s:"A：我用___结账可以吗？\nB：当然，这些一共125块。", py:"A: Wǒ yòng ___ jiézhàng kěyǐ ma?\nB: Dāngrán, zhèxiē yígòng yìbǎi èrshíwǔ kuài.", a:"现金", vi:"A: Tôi trả bằng tiền mặt được không? B: Tất nhiên, chỗ này tổng cộng 125 tệ."},
+  {n:21, s:"A：这个工作要求对网络___很了解，你可以吗？\nB：没问题，我做这方面的工作已经有五年了。", py:"A: Zhège gōngzuò yāoqiú duì wǎngluò ___ hěn liǎojiě, nǐ kěyǐ ma?\nB: Méi wèntí, wǒ zuò zhè fāngmiàn de gōngzuò yǐjīng yǒu wǔ nián le.", a:"技术", vi:"A: Công việc này yêu cầu rất hiểu kỹ thuật mạng, bạn làm được không? B: Không vấn đề, tôi làm công việc này đã năm năm rồi."}
+];
+const PASSAGES = {
+  p22:{zh:"随着科学技术的发展，距离对人与人之间交流的影响越来越小了，只要打个电话或者发个电子邮件，就能联系到千里之外的人。",
+       py:"Suízhe kēxué jìshù de fāzhǎn, jùlí duì rén yǔ rén zhījiān jiāoliú de yǐngxiǎng yuè lái yuè xiǎo le, zhǐyào dǎ ge diànhuà huòzhě fā ge diànzǐ yóujiàn, jiù néng liánxì dào qiānlǐ zhī wài de rén."},
+  p23:{zh:"二三十年前很多人还有通过写信交笔友的习惯，但是进入21世纪以后随着科学技术的发展，现在几乎没有人会选择写信了，人们更愿意上网交流。",
+       py:"Èr-sānshí nián qián hěn duō rén hái yǒu tōngguò xiě xìn jiāo bǐyǒu de xíguàn, dànshì jìnrù èrshíyī shìjì yǐhòu suízhe kēxué jìshù de fāzhǎn, xiànzài jīhū méiyǒu rén huì xuǎnzé xiě xìn le, rénmen gèng yuànyì shàng wǎng jiāoliú."},
+  p24:{zh:"过程和结果哪个更重要？这个问题从来就没有标准答案，每个人都有自己的想法。从事情的发展来看，也许过程更重要，因为过程决定结果。但是，结果也可以影响过程，这和看体育比赛一样，即使过程再美，结果输了也是一种遗憾。有时要从事情可能出现的结果出发，考虑要不要进行这样的过程，从这个意义上讲，在整个过程中，结果才是真正的主导。",
+       py:"Guòchéng hé jiéguǒ nǎge gèng zhòngyào? Zhège wèntí cónglái jiù méiyǒu biāozhǔn dá'àn, měi ge rén dōu yǒu zìjǐ de xiǎngfǎ. Cóng shìqing de fāzhǎn lái kàn, yěxǔ guòchéng gèng zhòngyào, yīnwèi guòchéng juédìng jiéguǒ. Dànshì, jiéguǒ yě kěyǐ yǐngxiǎng guòchéng, zhè hé kàn tǐyù bǐsài yíyàng, jíshǐ guòchéng zài měi, jiéguǒ shū le yě shì yì zhǒng yíhàn. Yǒushí yào cóng shìqing kěnéng chūxiàn de jiéguǒ chūfā, kǎolǜ yào bu yào jìnxíng zhèyàng de guòchéng, cóng zhège yìyì shang jiǎng, zài zhěnggè guòchéng zhōng, jiéguǒ cái shì zhēnzhèng de zhǔdǎo."},
+  p25:{zh:"“地球之船”是一种可以自我满足需要的环保住房，每个“地球之船”都是独一无二的。因为每一座都是由主人自己设计并亲手建成的，所以每一座“地球之船”都拥有独特的外观。不但大小、建筑材料不同，外形也是千变万化，这一切都由建造者决定。值得一提的是，这些房子都有很好的温度控制功能，无论是在炎热的夏天还是在寒冷的冬天，居住在这里都能享受到家的温暖和舒适，因为这些房屋在设计和建造时将地热、风、空气、太阳能、水等天然资源完美地结合了起来，可以达到很好的温度控制效果，就连房屋正面的朝向都十分讲究。",
+       py:"“Dìqiú zhī chuán” shì yì zhǒng kěyǐ zìwǒ mǎnzú xūyào de huánbǎo zhùfáng, měi ge “Dìqiú zhī chuán” dōu shì dúyī-wú'èr de. Yīnwèi měi yí zuò dōu shì yóu zhǔrén zìjǐ shèjì bìng qīnshǒu jiànchéng de, suǒyǐ měi yí zuò “Dìqiú zhī chuán” dōu yōngyǒu dútè de wàiguān. Búdàn dàxiǎo, jiànzhù cáiliào bù tóng, wàixíng yě shì qiānbiàn-wànhuà, zhè yíqiè dōu yóu jiànzàozhě juédìng. Zhíde yì tí de shì, zhèxiē fángzi dōu yǒu hěn hǎo de wēndù kòngzhì gōngnéng, wúlùn shì zài yánrè de xiàtiān háishi zài hánlěng de dōngtiān, jūzhù zài zhèlǐ dōu néng xiǎngshòu dào jiā de wēnnuǎn hé shūshì, yīnwèi zhèxiē fángwū zài shèjì hé jiànzào shí jiāng dìrè, fēng, kōngqì, tàiyángnéng, shuǐ děng tiānrán zīyuán wánměi de jiéhé le qǐlái, kěyǐ dádào hěn hǎo de wēndù kòngzhì xiàoguǒ, jiù lián fángwū zhèngmiàn de cháoxiàng dōu shífēn jiǎngjiu."},
+  p27:{zh:"在中国，用手机支付、网购和寄快递都很方便，所以很多人觉得自己快要离不开手机了。（27）___，还不会用中国人常用的手机App，她很着急。她的中国朋友知道后，（28）___，教她怎么用，她很快就学会用手机支付和网购了。（29）___，不到40分钟，外卖员就把饭送来了，（30）___。现在，她几乎每天都用手机点外卖或网购。",
+       py:"Zài Zhōngguó, yòng shǒujī zhīfù, wǎnggòu hé jì kuàidì dōu hěn fāngbiàn, suǒyǐ hěn duō rén juéde zìjǐ kuàiyào lí bu kāi shǒujī le. (27) ___, hái bú huì yòng Zhōngguórén chángyòng de shǒujī App, tā hěn zháojí. Tā de Zhōngguó péngyou zhīdào hòu, (28) ___, jiāo tā zěnme yòng, tā hěn kuài jiù xuéhuì yòng shǒujī zhīfù hé wǎnggòu le. (29) ___, bú dào sìshí fēnzhōng, wàimàiyuán jiù bǎ fàn sòng lái le, (30) ___. Xiànzài, tā jīhū měi tiān dōu yòng shǒujī diǎn wàimài huò wǎnggòu."}
+};
+const P27_OPTS = [["马上给她提供帮助","mǎshàng gěi tā tígōng bāngzhù"],["爱丽觉得太方便了","Àilì juéde tài fāngbiàn le"],["第一次点外卖时","dì-yī cì diǎn wàimài shí"],["爱丽刚来北京留学时","Àilì gāng lái Běijīng liúxué shí"]];
+const ADV_READ = [
+  {n:22, ctx:"p22", s:"科技发展带来的好处是：", py:"Kējì fāzhǎn dàilái de hǎochù shì:", o:[["减少误会","jiǎnshǎo wùhuì"],["减少污染","jiǎnshǎo wūrǎn"],["交流更方便","jiāoliú gèng fāngbiàn"],["增加安全感","zēngjiā ānquángǎn"]], a:"交流更方便", vi:"Chỉ cần gọi điện hay gửi email là liên lạc được với người ở xa nghìn dặm → giao tiếp thuận tiện hơn."},
+  {n:23, ctx:"p23", s:"现在人们更愿意：", py:"Xiànzài rénmen gèng yuànyì:", o:[["发短信","fā duǎnxìn"],["写日记","xiě rìjì"],["上网聊","shàng wǎng liáo"],["看杂志","kàn zázhì"]], a:"上网聊", vi:"Câu cuối: 人们更愿意上网交流 (mọi người thích giao lưu trên mạng hơn)."},
+  {n:24, ctx:"p24", s:"下列符合这段话内容的一项是：", py:"Xiàliè fúhé zhè duàn huà nèiróng de yí xiàng shì:", o:[["过程决定做事的意义","guòchéng juédìng zuò shì de yìyì"],["结果比过程更加重要","jiéguǒ bǐ guòchéng gèngjiā zhòngyào"],["过程比结果更加重要","guòchéng bǐ jiéguǒ gèngjiā zhòngyào"],["过程和结果都很重要","guòchéng hé jiéguǒ dōu hěn zhòngyào"]], a:"结果比过程更加重要", vi:"Câu kết: 在整个过程中，结果才是真正的主导 (kết quả mới là yếu tố chủ đạo)."},
+  {n:25, ctx:"p25", s:"“地球之船”的设计由什么决定？", py:"“Dìqiú zhī chuán” de shèjì yóu shénme juédìng?", o:[["建造者的愿望","jiànzàozhě de yuànwàng"],["当地气候情况","dāngdì qìhòu qíngkuàng"],["建筑所需材料","jiànzhù suǒ xū cáiliào"],["当地天然资源","dāngdì tiānrán zīyuán"]], a:"建造者的愿望", vi:"Đoạn văn: 这一切都由建造者决定 (tất cả đều do người xây quyết định)."},
+  {n:26, ctx:"p25", s:"关于“地球之船”，不正确的一项是：", py:"Guānyú “Dìqiú zhī chuán”, bú zhèngquè de yí xiàng shì:", o:[["由设计者亲手建成","yóu shèjìzhě qīnshǒu jiànchéng"],["能控制房内的温度","néng kòngzhì fáng nèi de wēndù"],["设计环保而有个性","shèjì huánbǎo ér yǒu gèxìng"],["房屋正面朝向太阳","fángwū zhèngmiàn cháoxiàng tàiyáng"]], a:"房屋正面朝向太阳", vi:"Bài chỉ nói hướng mặt trước nhà “rất được chú ý” (十分讲究), không nói quay về phía mặt trời."},
+  {n:27, ctx:"p27", s:"Chỗ trống (27) điền câu nào?", o:P27_OPTS, a:"爱丽刚来北京留学时", vi:"Lúc Ái Lệ mới đến Bắc Kinh du học, còn chưa biết dùng app mà người Trung Quốc hay dùng."},
+  {n:28, ctx:"p27", s:"Chỗ trống (28) điền câu nào?", o:P27_OPTS, a:"马上给她提供帮助", vi:"Bạn Trung Quốc biết chuyện liền giúp đỡ cô ấy ngay, dạy cô ấy cách dùng."},
+  {n:29, ctx:"p27", s:"Chỗ trống (29) điền câu nào?", o:P27_OPTS, a:"第一次点外卖时", vi:"Lần đầu gọi đồ ăn, chưa đến 40 phút người giao đã mang cơm đến."},
+  {n:30, ctx:"p27", s:"Chỗ trống (30) điền câu nào?", o:P27_OPTS, a:"爱丽觉得太方便了", vi:"Ái Lệ thấy tiện quá, nên giờ gần như ngày nào cũng gọi đồ ăn hoặc mua online."}
+];
+
+const N_MEANING = 10; // Phần 1A: số câu chọn nghĩa (lấy ngẫu nhiên)
+
+/* ===================== TIỆN ÍCH ===================== */
+const $ = s => document.querySelector(s), $$ = s => [...document.querySelectorAll(s)];
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const shuffle = a => { a = [...a]; for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+const blanks = s => esc(s).replace(/___/g, '<span class="b">&nbsp;</span>');
+const hlText = (s, h) => h ? esc(s).replace(new RegExp(h.split("|").sort((a, b) => b.length - a.length).join("|"), "g"), m => `<span class="hl">${m}</span>`) : esc(s);
+const store = { get(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }, set(k, v) { try { localStorage.setItem(k, v); } catch (e) {} } };
+const IS_GAS = typeof google !== "undefined" && google.script && google.script.run;
+/* Link ứng dụng web Apps Script nhận kết quả khi trang chạy ngoài Google (GitHub Pages) */
+const EXEC_URL = "https://script.google.com/macros/s/AKfycbym1qbivFhhz9cwDNxS5IwM3sf3YVpTv4xQmVrAuZM8PHt7fjDeMDdfSW50vARhin5u/exec";
+const MODE = IS_GAS ? "gas" : (/\.github\.io$|\.netlify\.app$/.test(location.hostname) || /[?&]online=1/.test(location.search) ? "post" : "demo");
+
+/* Đọc tiếng Trung bằng giọng của máy */
+let voices = [];
+if ("speechSynthesis" in window) { voices = speechSynthesis.getVoices(); speechSynthesis.onvoiceschanged = () => voices = speechSynthesis.getVoices(); }
+function speak(t) {
+  if (!("speechSynthesis" in window)) return;
+  speechSynthesis.cancel();
+  const u = new SpeechSynthesisUtterance(t.replace(/___/g, "").replace(/……/g, "，"));
+  u.lang = "zh-CN"; u.rate = 0.8;
+  const v = voices.find(v => /zh[-_]CN/i.test(v.lang) && /Xiaoxiao|Natural|Online/i.test(v.name)) || voices.find(v => /zh[-_]CN/i.test(v.lang));
+  if (v) u.voice = v;
+  speechSynthesis.speak(u);
+}
+document.addEventListener("click", e => { const b = e.target.closest("[data-say]"); if (b) { e.stopPropagation(); speak(b.dataset.say); } }, true);
+
+/* Ẩn / hiện pinyin */
+function setPy(on) { document.body.classList.toggle("no-py", !on); $("#pyTog").setAttribute("aria-pressed", on); store.set("py", on ? "1" : "0"); }
+$("#pyTog").onclick = () => setPy(document.body.classList.contains("no-py"));
+setPy(store.get("py") !== "0");
+
+/* ===================== MÀN HÌNH BẮT ĐẦU ===================== */
+let student = null, startedAt = null;
+$("#inName").value = store.get("name") || "";
+$("#inClass").value = store.get("class") || "";
+if (MODE === "demo") $("#demoBanner").hidden = false;
+$("#btnStart").onclick = () => {
+  const name = $("#inName").value.trim().replace(/\s+/g, " "), lop = $("#inClass").value.trim();
+  if (name.length < 2) { $("#startErr").textContent = "Vui lòng nhập họ và tên trước khi làm bài."; $("#inName").focus(); return; }
+  store.set("name", name); store.set("class", lop);
+  student = { name, lop }; startedAt = Date.now();
+  $("#who").textContent = name + (lop ? " · " + lop : "");
+  $("#vStart").hidden = true; $("#tabs").hidden = false;
+  show("vocab");
+};
+$("#inName").addEventListener("keydown", e => { if (e.key === "Enter") $("#inClass").focus(); });
+$("#inClass").addEventListener("keydown", e => { if (e.key === "Enter") $("#btnStart").click(); });
+
+function show(v) {
+  $("#vVocab").hidden = v !== "vocab"; $("#vGram").hidden = v !== "gram"; $("#vQuiz").hidden = v !== "quiz";
+  $("#submitbar").hidden = v !== "quiz" || submitted;
+  $$("#tabs button").forEach(b => b.classList.toggle("on", b.dataset.v === v));
+  scrollTo({ top: 0 });
+}
+$$("#tabs button").forEach(b => b.onclick = () => show(b.dataset.v));
+
+/* ===================== ÔN TỪ VỰNG ===================== */
+function renderCards(gi) {
+  $$("#groupChips button").forEach((b, i) => b.classList.toggle("on", i === gi));
+  const list = gi < 0 ? VOCAB : GROUPS[gi].words.map(([zh, py, pos, vi]) => ({zh, py, pos, vi}));
+  $("#cards").innerHTML = list.map(w => `<div class="fc" tabindex="0" role="button" aria-label="${esc(w.zh)}"><div class="in">
+    <div class="face front"><button class="spk" data-say="${esc(w.zh)}" aria-label="Nghe">🔊</button><div class="w">${esc(w.zh)}</div><div class="py">${esc(w.py)}</div></div>
+    <div class="face back"><div class="w2">${esc(w.zh)}</div><div class="py">${esc(w.py)}</div><span class="pos">${esc(w.pos)}</span><div class="vi">${esc(w.vi)}</div></div></div></div>`).join("");
+  $$("#cards .fc").forEach(c => { const f = () => c.classList.toggle("flip"); c.onclick = f; c.onkeydown = e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); f(); } }; });
+}
+$("#groupChips").innerHTML = GROUPS.map(g => `<button>${esc(g.name)}</button>`).join("") + `<button>Tất cả ${VOCAB.length} từ</button>`;
+$$("#groupChips button").forEach((b, i) => b.onclick = () => renderCards(i < GROUPS.length ? i : -1));
+renderCards(0);
+
+/* ===================== ÔN NGỮ PHÁP ===================== */
+$("#gramList").innerHTML = GRAMMAR.map((g, i) => `<div class="gp"><h3><span class="n">${i + 1}</span><span>${esc(g.t)}<br><span class="zh" style="font-size:15px;color:var(--soft)">${esc(g.zh)}</span></span></h3>
+  <div class="f">${esc(g.f)}</div>
+  ${g.ex.map(([z, p, v]) => `<div class="ex"><button class="spk" data-say="${esc(z)}" aria-label="Nghe">🔊</button><div class="t"><div class="z">${hlText(z, g.hl)}</div><div class="py">${esc(p)}</div><div class="v">${esc(v)}</div></div></div>`).join("")}</div>`).join("");
+
+/* ===================== BÀI KIỂM TRA ===================== */
+let QUESTIONS = [], submitted = false;
+function buildQuiz() {
+  const qs = [];
+  // 1A: chọn nghĩa
+  shuffle(VOCAB).slice(0, N_MEANING).forEach(w => {
+    const wrong = shuffle(VOCAB.filter(x => x.zh !== w.zh && x.vi !== w.vi)).slice(0, 3).map(x => x.vi);
+    qs.push({ part: 1, type: "meaning", zh: w.zh, py: w.py, opts: shuffle([w.vi, ...wrong]).map(v => ({ v })), ans: w.vi, label: w.zh, explain: `${w.zh} (${w.py}) = ${w.vi}` });
+  });
+  // 1B: kết hợp từ
+  shuffle(COLLO).forEach(c => qs.push({ part: 2, type: "collo", zh: c.s, opts: shuffle(c.o).map(v => ({ v, zh: 1, py: PY[v] })), ans: c.o[0], label: c.s.replace("___", c.o[0]).replace(" ", ""), explain: c.vi }));
+  // 1C: ngữ pháp
+  GFILL.forEach(f => qs.push({ part: 3, type: "fill", zh: f.s, py: f.py, opts: shuffle(f.o).map(v => ({ v, zh: 1, py: PY[v] })), ans: f.o[0], label: f.s.replace("___", "（" + f.o[0] + "）"), explain: f.vi }));
+  // 2: nâng cao (thứ tự như đề, đáp án không xáo)
+  ADV_FILL.forEach(f => qs.push({ part: 4, sec: "fill", n: f.n, type: "fill", zh: f.s, py: f.py, opts: ADV_FILL_OPTS.map(v => ({ v, zh: 1, py: PY[v] })), ans: f.a, label: "Đề câu " + f.n, explain: f.vi }));
+  ADV_READ.forEach(r => qs.push({ part: 4, sec: r.n < 27 ? "read" : "cloze", n: r.n, ctx: r.ctx, type: "read", zh: r.s, py: r.py || "", opts: r.o.map(([v, p]) => ({ v, zh: 1, py: p })), ans: r.a, label: "Đề câu " + r.n, explain: r.vi, one: true }));
+  return qs;
+}
+const PARTS = { 1: "1A · Chọn nghĩa đúng của từ", 2: "1B · Chọn từ kết hợp đúng", 3: "1C · Ngữ pháp: chọn từ điền vào chỗ trống", 4: "Phần 2 · Nâng cao (đề luyện đọc)" };
+const SECS = { fill: "Bài 1 · Chọn từ điền vào chỗ trống (câu 17–21 trong đề)", read: "Bài 2 · Đọc đoạn văn, chọn đáp án đúng (câu 22–26)", cloze: "Bài 3 · Chọn câu điền vào đoạn văn (câu 27–30)" };
+const BIG = { 1: ["PHẦN 1 · CƠ BẢN", "Kiểm tra nhớ nghĩa từ, kết hợp từ và ngữ pháp của bài"], 4: ["PHẦN 2 · NÂNG CAO", "Các câu trong đề luyện đọc (阅读)"] };
+
+const nl = s => s.replace(/\n/g, "<br>");
+function renderQuiz() {
+  QUESTIONS = buildQuiz();
+  let html = "", lastPart = 0, lastSec = "", lastCtx = "";
+  QUESTIONS.forEach((q, i) => {
+    if (q.part !== lastPart) {
+      lastPart = q.part;
+      if (BIG[q.part]) html += `<div class="bigpart"><b>${BIG[q.part][0]}</b><span>${BIG[q.part][1]}</span></div>`;
+      if (q.part < 4) { const n = QUESTIONS.filter(x => x.part === q.part).length; html += `<div class="part"><h3>${PARTS[q.part]}</h3><span class="pts">${n} câu · mỗi câu 1 điểm</span></div>`; }
+    }
+    if (q.sec && q.sec !== lastSec) { lastSec = q.sec; const n = QUESTIONS.filter(x => x.sec === q.sec).length; html += `<div class="part"><h3>${SECS[q.sec]}</h3><span class="pts">${n} câu</span></div>`; if (q.sec === "fill") html += `<div class="bank">${ADV_FILL_OPTS.map((o, k) => `<span><b>${"ABCDEF"[k]}</b> <span class="zh">${esc(o)}</span> <span class="py">${esc(PY[o])}</span></span>`).join("")}</div>`; }
+    if (q.ctx && q.ctx !== lastCtx) { lastCtx = q.ctx; const p = PASSAGES[q.ctx]; html += `<div class="ctx"><button class="spk" data-say="${esc(p.zh)}" aria-label="Nghe">🔊</button><div class="z">${blanks(p.zh)}</div><div class="py">${esc(p.py)}</div></div>`; }
+    let stem = q.n ? `<div style="color:var(--soft);font-size:13px">Câu ${q.n} trong đề</div>` : "";
+    if (q.type === "meaning") stem = `<div class="z" style="font-size:28px">${esc(q.zh)}</div><div class="py">${esc(q.py)}</div><div style="color:var(--soft);font-size:14px">Từ này có nghĩa là gì?</div>`;
+    else if (q.type === "collo") stem += `<div class="z" style="font-size:26px">${blanks(q.zh)}</div><div style="color:var(--soft);font-size:14px">Chọn từ kết hợp đúng</div>`;
+    else if (q.type === "fill") stem += `<div class="z">${nl(blanks(q.zh))}</div><div class="py">${nl(esc(q.py))}</div>`;
+    else stem += /[\u4e00-\u9fff]/.test(q.zh) ? `<div class="z" style="font-size:19px">${esc(q.zh)}</div><div class="py">${esc(q.py)}</div>` : `<div style="font-weight:700">${esc(q.zh)}</div>`;
+    const say = (q.type === "fill" || q.type === "meaning") ? `<button class="spk" data-say="${esc(q.zh.replace(/[AB]：|\n/g, ""))}" aria-label="Nghe">🔊</button>` : "";
+    const L = q.opts.length > 4 ? "ABCDEF" : "ABCD";
+    const opts = q.opts.map((o, k) => `<button class="opt" data-q="${i}" data-o="${esc(o.v)}"><span class="k">${L[k]}.</span><span class="c">${o.zh ? `<span class="z">${esc(o.v)}</span>` : esc(o.v)}${o.py ? `<br><span class="py">${esc(o.py)}</span>` : ""}</span></button>`).join("");
+    html += `<div class="q" id="q${i}"><div class="head"><span class="no">${i + 1}</span><div class="stem">${stem}</div>${say}</div>
+      <div class="opts ${q.one ? "one" : ""} ${q.opts.length > 4 ? "six" : ""}">${opts}</div><div class="explain" hidden></div></div>`;
+  });
+  $("#quiz").innerHTML = html;
+  $$("#quiz .opt").forEach(b => b.onclick = () => {
+    if (submitted) return;
+    const q = QUESTIONS[b.dataset.q];
+    q.pick = b.dataset.o;
+    b.parentElement.querySelectorAll(".opt").forEach(x => x.classList.toggle("sel", x === b));
+    $("#confirm").classList.remove("show");
+    updateProg();
+  });
+  updateProg();
+}
+function updateProg() {
+  const done = QUESTIONS.filter(q => q.pick != null).length;
+  $("#progTxt").textContent = `Đã làm ${done}/${QUESTIONS.length} câu`;
+  $("#progBar").style.width = (done / QUESTIONS.length * 100) + "%";
+}
+renderQuiz();
+
+$("#btnSubmit").onclick = () => {
+  const left = QUESTIONS.filter(q => q.pick == null).length;
+  if (left > 0) {
+    $("#confirmMsg").innerHTML = `Bạn còn <b>${left} câu</b> chưa làm. Câu bỏ trống sẽ không có điểm.`;
+    $("#confirm").classList.add("show"); $("#confirm").scrollIntoView({ behavior: "smooth", block: "center" });
+    const first = QUESTIONS.findIndex(q => q.pick == null);
+    $("#btnCancel").onclick = () => { $("#confirm").classList.remove("show"); $("#q" + first).scrollIntoView({ behavior: "smooth", block: "center" }); };
+    return;
+  }
+  doSubmit();
+};
+$("#btnConfirm").onclick = () => doSubmit();
+
+let lastPayload = null;
+function doSubmit() {
+  if (submitted) return;
+  submitted = true;
+  $("#confirm").classList.remove("show"); $("#submitbar").hidden = true;
+  const score = { 1: 0, 2: 0, 3: 0, 4: 0 }, max = { 1: 0, 2: 0, 3: 0, 4: 0 }, wrongs = [];
+  QUESTIONS.forEach((q, i) => {
+    max[q.part]++;
+    const ok = q.pick === q.ans; if (ok) score[q.part]++;
+    else wrongs.push(`Câu ${i + 1}: ${q.label}${q.pick ? " (chọn " + q.pick + ")" : " (bỏ trống)"}`);
+    const box = $("#q" + i); box.classList.add(ok ? "ok" : "bad");
+    box.querySelector(".opts").classList.add("locked");
+    box.querySelectorAll(".opt").forEach(b => { if (b.dataset.o === q.ans) b.classList.add("right"); else if (b.dataset.o === q.pick) b.classList.add("wrong"); });
+    const ex = box.querySelector(".explain"); ex.hidden = false;
+    ex.innerHTML = (ok ? "✅ Đúng. " : `❌ Đáp án đúng: <b class="zh">${esc(q.ans)}</b>. `) + esc(q.explain);
+  });
+  const total = Object.values(score).reduce((a, b) => a + b, 0), totalMax = QUESTIONS.length;
+  const diem10 = Math.round(total / totalMax * 100) / 10;
+  const minutes = Math.max(1, Math.round((Date.now() - startedAt) / 60000));
+  lastPayload = { bai: BAI, labels: LABELS, name: student.name, lop: student.lop, p1: score[1], p2: score[2], p3: score[3], p4: score[4], total, max: totalMax, diem10, minutes, wrong: wrongs.join("\n") };
+  $("#result").innerHTML = `<div class="result"><div>Kết quả của <b>${esc(student.name)}</b></div>
+    <div class="score">${diem10.toFixed(1)}<span style="font-size:22px;color:var(--soft)"> / 10</span></div>
+    <div style="color:var(--soft)">Đúng ${total}/${totalMax} câu · làm trong ${minutes} phút</div>
+    <table>${[1, 2, 3, 4].map(p => `<tr><td>${LABELS[p - 1]}</td><td>${score[p]}/${max[p]}</td></tr>`).join("")}</table>
+    <div class="save wait" id="saveMsg">Đang gửi kết quả cho thầy cô…</div>
+    <button class="btn ghost" id="btnRetry" hidden style="margin-top:10px">Gửi lại kết quả</button>
+    <p class="hint">Kéo lên để xem lại từng câu: câu đúng viền xanh, câu sai viền đỏ kèm đáp án.</p></div>`;
+  $("#btnRetry").onclick = sendResult;
+  $("#result").scrollIntoView({ behavior: "smooth" });
+  sendResult();
+}
+function sendResult() {
+  const msg = $("#saveMsg"), retry = $("#btnRetry");
+  msg.className = "save wait"; msg.textContent = "Đang gửi kết quả cho thầy cô…"; retry.hidden = true;
+  const ok = () => { msg.className = "save ok"; msg.textContent = "✓ Đã gửi kết quả cho thầy cô."; };
+  const fail = err => { msg.className = "save fail"; msg.textContent = "Chưa gửi được kết quả (" + (err && err.message ? err.message : "lỗi mạng") + "). Bấm “Gửi lại kết quả”."; retry.hidden = false; };
+  if (MODE === "gas") google.script.run.withSuccessHandler(ok).withFailureHandler(fail).saveResult(lastPayload);
+  else if (MODE === "post") {
+    // text/plain để trình duyệt gửi thẳng, không cần bước kiểm tra CORS
+    fetch(EXEC_URL, { method: "POST", headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify(lastPayload) })
+      .then(r => r.json())
+      .then(j => j && j.ok ? ok() : fail({ message: (j && j.error) || "máy chủ không nhận" }))
+      .catch(fail);
+  }
+  else setTimeout(() => { console.log("[Chế độ thử] Kết quả sẽ gửi:", lastPayload); msg.className = "save ok"; msg.textContent = "✓ (Chế độ thử) Kết quả hợp lệ, chưa gửi lên Google Sheet."; }, 600);
+}
+</script>
+</body>
+</html>
